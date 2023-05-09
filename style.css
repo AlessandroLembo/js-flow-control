@@ -1,0 +1,36 @@
+body{
+    background-color: darkgray;
+}
+
+#ps-card{
+    max-width: 800px;
+    height: 800px;
+    border: 3px solid darkgoldenrod;
+    margin: 4rem auto;
+    background-color: aliceblue;
+    padding: 1.5rem;
+    position: relative;
+}
+
+#ps-card:hover{
+    transform: translateY(15px);
+    cursor: pointer;
+}
+
+.title{
+    text-align: center;
+    font-size: 50px;
+    margin-bottom: 2rem;
+}
+
+.ps-text{
+    font-size: 30px;
+}
+
+.author{
+    position: absolute;
+    bottom: 2rem;
+    right: 2rem;
+}
+
+
