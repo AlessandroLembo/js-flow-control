@@ -47,10 +47,8 @@ function getUserPost5(id, successCb, errorCb) {
 
 // invoco la funzione passando come argomento la variabile che è il singolo post che voglio ottenere
 getPost5(postId5, (data) => {
-    // console.log('Post:', data)
     // se ho ottenuto il singolo post faccio partire la chiamata per sapere l'autore del post.
     getUserPost5(data.userId, (data) => {
-        // console.log('User:', data)
     }, (error) => {
         console.error(error)
     })
@@ -60,26 +58,20 @@ getPost5(postId5, (data) => {
 
 /*----------------------------------------------------------------*/
 // Promise patterns: Utilizzo dell'oggetto Promise per ottenere un nuovo post 
-function getPost18(id) {
-    return fetch(baseUrl + '/posts/' + id)
+
+function getData18(url) {
+    return fetch(url)
     .then(response => response.json())
 }
 
-function getUserPost18(id) {
-    return fetch(baseUrl + '/users/' + id)
-    .then(response => response.json())
-}
-
-getPost18(postId18)
+getData18(baseUrl + '/posts/' + postId18)
     .then(post => {
-        // console.log('Post:', post);
         title2.classList.add('text-success');
         title2.innerText = post.title;
         text2.innerText = post.body;
-        return getUserPost18(post.userId)
+        return getData18(baseUrl + '/users/' + post.userId)
     })
     .then(user => {
-        // console.log('User:', user)
         author2.classList.add('text-success');
         author2.innerText = `${user.username} (${user.name})`;
     })
@@ -92,23 +84,16 @@ getPost18(postId18)
 
 /*---------------------------------------------------------------------*/
 // Async function: chiamate API usando le funzioni asincrone    
-async function getPost35(id) {
-    const response = await fetch (baseUrl + '/posts/' + id)
-    const data = await response.json()
-    return data
-}
 
-async function getUserPost35(id) {
-    const response = await fetch (baseUrl + '/users/' + id)
-    const data = await response.json()
-    return data
+async function getData(url) {
+    const response = await fetch(url)
+    return await response.json()
 }
 
 async function init() {
     try {
-        const post = await getPost35(postId35)
-        const user = await getUserPost35(post.userId)
-        console.log('User:', user);
+        const post = await getData(baseUrl + '/posts/' + postId35)
+        const user = await getData(baseUrl + '/users/' + post.userId)
         title3.classList.add('text-success');
         author3.classList.add('text-success');
         title3.innerText = post.title;
