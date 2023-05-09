@@ -2,6 +2,7 @@
 const baseUrl = 'https://jsonplaceholder.typicode.com';
 const postId5 = 5;
 const postId18 = 18;
+const postId35 = 35;
 const card = document.getElementById('card');
 const title = document.getElementById('title');
 const author = document.getElementById('author');
@@ -9,6 +10,9 @@ const text = document.getElementById('text');
 const title2 = document.getElementById('title2');
 const text2 = document.getElementById('text2');
 const author2 = document.getElementById('author2');
+const title3 = document.getElementById('title3');
+const text3 = document.getElementById('text3');
+const author3 = document.getElementById('author3');
 
 
 function getPost5(id, successCb, errorCb) {
@@ -43,10 +47,10 @@ function getUserPost5(id, successCb, errorCb) {
 
 // invoco la funzione passando come argomento la variabile che è il singolo post che voglio ottenere
 getPost5(postId5, (data) => {
-    console.log('Post:', data)
+    // console.log('Post:', data)
     // se ho ottenuto il singolo post faccio partire la chiamata per sapere l'autore del post.
     getUserPost5(data.userId, (data) => {
-        console.log('User:', data)
+        // console.log('User:', data)
     }, (error) => {
         console.error(error)
     })
@@ -68,14 +72,14 @@ function getUserPost18(id) {
 
 getPost18(postId18)
     .then(post => {
-        console.log('Post:', post);
+        // console.log('Post:', post);
         title2.classList.add('text-success');
         title2.innerText = post.title;
         text2.innerText = post.body;
         return getUserPost18(post.userId)
     })
     .then(user => {
-        console.log('User:', user)
+        // console.log('User:', user)
         author2.classList.add('text-success');
         author2.innerText = `${user.username} (${user.name})`;
     })
@@ -86,3 +90,33 @@ getPost18(postId18)
     })
 
 
+/*---------------------------------------------------------------------*/
+// Async function: chiamate API usando le funzioni asincrone    
+async function getPost35(id) {
+    const response = await fetch (baseUrl + '/posts/' + id)
+    const data = await response.json()
+    return data
+}
+
+async function getUserPost35(id) {
+    const response = await fetch (baseUrl + '/users/' + id)
+    const data = await response.json()
+    return data
+}
+
+async function init() {
+    try {
+        const post = await getPost35(postId35)
+        const user = await getUserPost35(post.userId)
+        console.log('User:', user);
+        title3.classList.add('text-success');
+        author3.classList.add('text-success');
+        title3.innerText = post.title;
+        text3.innerText = post.body;
+        author3.innerText = `${user.username} (${user.name})`;    
+    } catch (error) {
+        console.error(error)
+    }
+}
+
+init();
